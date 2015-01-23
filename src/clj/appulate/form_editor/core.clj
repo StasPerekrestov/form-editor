@@ -5,7 +5,7 @@
               [ring.util.response :as resp]
               [cheshire.core :as json]
               [clojure.java.io :as io]
-              [appulate.form-editor.yahoo.ws-handler :as ws]))
+              [appulate.form-editor.event-bus.ws-handler :as ws]))
 
 (defn json-response [data & [status]]
   {:status (or status 200)
