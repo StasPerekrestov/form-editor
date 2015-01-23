@@ -4,9 +4,10 @@
    [cljs.core.async :refer [put! chan <!]]
    [om.core :as om :include-macros true]
    [om.dom :as dom :include-macros true]
-   [appulate.form-editor.ui.editors :as editors]))
+   [appulate.form-editor.ui.editors :as editors]
+   [clojure.string :as string]))
 
-(defn section-selector [section-data owner]
+(defn- section-selector [section-data owner]
   "Renders a view that allows to select a particular section"
   (reify
     om/IRender
@@ -25,12 +26,18 @@
                                                          (->>
                                                           e
                                                           (.preventDefault)))} label)))))))
-(defn question-search [pattern owner]
+(defn- question-search [search-data owner]
   (reify
     om/IRender
     (render [_]
-            (let [searchId "qSearch"]
-              (dom/input #js {:placeholder "Search:" :id searchId :type "text" :className "right"})))))
+            (let [searchId "qSearch"
+                  {:keys [ch pattern]} search-data]
+              (dom/input #js {:placeholder "Search:"
+                              :id searchId
+                              :type "text"
+                              :className "right"
+                              :value pattern
+                              :onChange #(put! ch (->> %1 (.-target) (.-value)))})))))
 
 
 (defn qs-editor [qs owner]
@@ -47,17 +54,25 @@
   (reify
     om/IInitState
     (init-state [_]
-                {:selection-ch (chan)})
+                {:selection-ch (chan)
+                 :search-ch (chan)
+                 :search-pattern ""})
     om/IWillMount
     (will-mount [_]
-                (let [selection-ch (om/get-state owner :selection-ch)]
+                (let [selection-ch (om/get-state owner :selection-ch)
+                      search-ch (om/get-state owner :search-ch)]
                   (go (loop [section-id (<! selection-ch)]
                         (om/update! application [:selected-section-id] section-id)
-                        (recur (<! selection-ch))))))
+                        (recur (<! selection-ch))))
+                  (go (loop [pattern (<! search-ch)]
+                        (om/set-state! owner :search-pattern pattern)
+                        (recur (<! search-ch))))))
     om/IRender
     (render [_]
             (apply dom/div nil (let [{:keys [sections selected-section-id]} application
                                      selection-ch (om/get-state owner :selection-ch)
+                                     search-ch (om/get-state owner :search-ch)
+                                     pattern (om/get-state owner :search-pattern)
                                      selected-section (first (filter #(= (:id %1) selected-section-id) sections))
                                      ]
                                  [(dom/div #js {:className "row"}
@@ -70,7 +85,8 @@
                                                                 sections)))
 
                                            (dom/div #js {:className "small-3 large-3 columns"}
-                                                    (om/build question-search nil)))
+                                                    (om/build question-search {:ch search-ch :pattern pattern})))
                                   (if-not (nil? selected-section)
                                     (apply dom/div #js {:className "panel"}
-                                           (om/build-all qs-editor (:questions selected-section))))])))))
+                                           (om/build-all qs-editor
+                                                         (filter #(or (> (.indexOf (:name %1) pattern) -1) (= 0 (count pattern))) (:questions selected-section)))))])))))
