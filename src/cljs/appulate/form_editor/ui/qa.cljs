@@ -12,12 +12,26 @@
     om/IRender
     (render [_]
             (let [{:keys [ch selected section]} section-data]
-              (let [{:keys [name id]} section]
-                (dom/dd #js {:className (if (true? selected) "active")} (dom/a #js {:href "#" :onClick (fn[e]
-                                                                                                 (put! ch id)
-                                                                                                 (->>
-                                                                                                  e
-                                                                                                  (.preventDefault)))} name)))))))
+              (let [{:keys [name id]} section
+                    questions (:questions section)
+                    questions-count (count questions)
+                    disabled (= 0 questions-count)
+                    label (str name "(" questions-count ")")]
+                (dom/dd #js {:className (if (true? selected) "active")}
+                        (dom/a #js {:href "#" :onClick (fn[e]
+
+                                                         (if (false? disabled)
+                                                           (put! ch id))
+                                                         (->>
+                                                          e
+                                                          (.preventDefault)))} label)))))))
+(defn question-search [pattern owner]
+  (reify
+    om/IRender
+    (render [_]
+            (let [searchId "qSearch"]
+              (dom/input #js {:placeholder "Search:" :id searchId :type "text" :className "right"})))))
+
 
 (defn qs-editor [qs owner]
   "Renders questions an answers section"
@@ -25,9 +39,9 @@
     om/IRender
     (render [_]
             (let [{:keys [id name type]} qs]
-            (dom/div nil
-                     (dom/label nil name)
-                     (om/build editors/text-box "put text here"))))))
+              (dom/div nil
+                       (dom/label nil name)
+                       (om/build editors/text-box "put text here"))))))
 
 (defn qa-view [application owner]
   (reify
@@ -42,19 +56,21 @@
                         (recur (<! selection-ch))))))
     om/IRender
     (render [_]
-            (apply dom/div nil
-                     (let [{:keys [sections selected-section-id]} application
-                           selection-ch (om/get-state owner :selection-ch)
-                           selected-section (first (filter #(= (:id %1) selected-section-id) sections))
-                           ]
-                       [(apply dom/dl #js {:className "sub-nav"}
-                              (map (fn [s]
-                                     (om/build section-selector {:selected (= s selected-section)
-                                                                 :section s
-                                                                 :ch selection-ch} ))
-                                   sections))
+            (apply dom/div nil (let [{:keys [sections selected-section-id]} application
+                                     selection-ch (om/get-state owner :selection-ch)
+                                     selected-section (first (filter #(= (:id %1) selected-section-id) sections))
+                                     ]
+                                 [(dom/div #js {:className "row"}
+                                           (dom/div #js {:className "small-9 large-9 columns"}
+                                                    (apply dom/dl #js {:className "sub-nav"}
+                                                           (map (fn [s]
+                                                                  (om/build section-selector {:selected (= s selected-section)
+                                                                                              :section s
+                                                                                              :ch selection-ch} ))
+                                                                sections)))
 
-                       (if-not (nil? selected-section)
-                           (apply dom/div #js {:className "panel"}
-                                  (om/build-all qs-editor (:questions selected-section))))]
-                       )))))
+                                           (dom/div #js {:className "small-3 large-3 columns"}
+                                                    (om/build question-search nil)))
+                                  (if-not (nil? selected-section)
+                                    (apply dom/div #js {:className "panel"}
+                                           (om/build-all qs-editor (:questions selected-section))))])))))

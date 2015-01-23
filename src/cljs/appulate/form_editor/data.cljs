@@ -11,7 +11,7 @@
                          {:id 4 :name "Afbi"}
                          {:id 5 :name "Nif Group"}]
                :application {
-                             :selected-section-id nil
+                             :selected-section-id 1234
                              :selectedForms []
                              ;Maybe map :id question is more appropriate
                              :sections [{:id 1234
