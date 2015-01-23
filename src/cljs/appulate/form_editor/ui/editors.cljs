@@ -8,4 +8,4 @@
   (reify
     om/IRender
     (render [_]
-          (dom/input #js {:type "text"} value))))
+          (dom/input #js {:type "text" :value value}))))

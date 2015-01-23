@@ -11,12 +11,13 @@
                          {:id 4 :name "Afbi"}
                          {:id 5 :name "Nif Group"}]
                :application {
-                             :selected-section nil
+                             :selected-section-id nil
                              :selectedForms []
+                             ;Maybe map :id question is more appropriate
                              :sections [{:id 1234
                                          :name "Common"
-                                         :question [{:id "Insured" :type "text"}
-                                                    {:id "FEIN" :type "text"}]}
+                                         :questions [{:id 123 :name "Insured" :type "text"}
+                                                    {:id 345 :name "FEIN" :type "text"}]}
                                         {:id 1235
                                          :name "Rating"                                         }
                                         {:id 12346
