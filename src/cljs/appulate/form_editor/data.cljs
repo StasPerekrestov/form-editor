@@ -16,12 +16,18 @@
                              ;Maybe map :id question is more appropriate
                              :sections [{:id 1234
                                          :name "Common"
-                                         :questions [{:id 123 :name "Insured" :type "text"}
-                                                    {:id 345 :name "FEIN" :type "text"}]}
+                                         :questions [{:id 123 :name "Insured" :type :text}
+                                                     {:id 345 :name "FEIN" :type :text}
+                                                     {:id 342 :name "test" :type :text}]}
                                         {:id 1235
-                                         :name "Rating"                                         }
+                                         :name "Rating"}
+
                                         {:id 12346
-                                         :name "Underwriting"}
+                                         :name "Underwriting"
+                                         :questions [{:id 123 :name "Is the insured engaged in any other type of business?" :type :yesno}
+                                                     {:id 123 :name "Any work over water?" :type :yesno}
+                                                     {:id 345 :name "Are athletic teams sponsored?" :type :yesno}]}
+
                                         {:id 123457
                                          :name "Coverage History"}
                                         {:id 123458
