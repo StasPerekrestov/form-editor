@@ -7,31 +7,28 @@
    [appulate.form-editor.ui.editors :as editors]
    [clojure.string :as string]))
 
-(defn- section-selector [section-data owner]
+(defn- section-selector [{:keys [ch selected section]} owner]
   "Renders a view that allows to select a particular section"
   (reify
     om/IRender
     (render [_]
-            (let [{:keys [ch selected section]} section-data]
-              (let [{:keys [name id]} section
-                    questions (:questions section)
-                    questions-count (count questions)
-                    disabled (= 0 questions-count)
-                    label (str name "(" questions-count ")")]
-                (dom/dd #js {:className (if (true? selected) "active")}
-                        (dom/a #js {:href "#" :onClick (fn[e]
-
-                                                         (if (false? disabled)
-                                                           (put! ch id))
-                                                         (->>
-                                                          e
-                                                          (.preventDefault)))} label)))))))
-(defn- question-search [search-data owner]
+            (let [{:keys [name id]} section
+                  questions (:questions section)
+                  questions-count (count questions)
+                  disabled (= 0 questions-count)
+                  label (str name "(" questions-count ")")]
+              (dom/dd #js {:className (if (true? selected) "active")}
+                      (dom/a #js {:href "#" :onClick (fn[e]
+                                                       (if (false? disabled)
+                                                         (put! ch id))
+                                                       (->>
+                                                        e
+                                                        (.preventDefault)))} label))))))
+(defn- question-search [{:keys [ch pattern]} owner]
   (reify
     om/IRender
     (render [_]
-            (let [searchId "qSearch"
-                  {:keys [ch pattern]} search-data]
+            (let [searchId "qSearch"]
               (dom/input #js {:placeholder "Search:"
                               :id searchId
                               :type "text"
@@ -40,15 +37,14 @@
                               :onChange #(put! ch (->> %1 (.-target) (.-value)))})))))
 
 
-(defn qs-editor [qs owner]
+(defn qs-editor [{:keys [id name type]} owner]
   "Renders questions an answers section"
   (reify
     om/IRender
     (render [_]
-            (let [{:keys [id name type]} qs]
-              (dom/div nil
-                       (dom/label nil name)
-                       (om/build editors/text-box "put text here"))))))
+            (dom/div nil
+                     (dom/label nil name)
+                     (om/build editors/text-box "put text here")))))
 
 (defn qa-view [application owner]
   (reify
@@ -68,21 +64,21 @@
                         (recur (<! search-ch))))))
     om/IRenderState
     (render-state [_ {:keys [selection-ch search-ch search-pattern]}]
-            (apply dom/div nil (let [{:keys [sections selected-section-id]} application
-                                     selected-section (first (filter #(= (:id %1) selected-section-id) sections))
-                                     ]
-                                 [(dom/div #js {:className "row"}
-                                           (dom/div #js {:className "small-9 large-9 columns"}
-                                                    (apply dom/dl #js {:className "sub-nav"}
-                                                           (map (fn [s]
-                                                                  (om/build section-selector {:selected (= s selected-section)
-                                                                                              :section s
-                                                                                              :ch selection-ch} ))
-                                                                sections)))
+                  (apply dom/div nil (let [{:keys [sections selected-section-id]} application
+                                           selected-section (first (filter #(= (:id %1) selected-section-id) sections))
+                                           ]
+                                       [(dom/div #js {:className "row"}
+                                                 (dom/div #js {:className "small-9 large-9 columns"}
+                                                          (apply dom/dl #js {:className "sub-nav"}
+                                                                 (map (fn [s]
+                                                                        (om/build section-selector {:selected (= s selected-section)
+                                                                                                    :section s
+                                                                                                    :ch selection-ch} ))
+                                                                      sections)))
 
-                                           (dom/div #js {:className "small-3 large-3 columns"}
-                                                    (om/build question-search {:ch search-ch :pattern search-pattern})))
-                                  (if-not (nil? selected-section)
-                                    (apply dom/div #js {:className "panel"}
-                                           (om/build-all qs-editor
-                                                         (filter #(or (> (.indexOf (:name %1) search-pattern) -1) (= 0 (count search-pattern))) (:questions selected-section)))))])))))
+                                                 (dom/div #js {:className "small-3 large-3 columns"}
+                                                          (om/build question-search {:ch search-ch :pattern search-pattern})))
+                                        (if-not (nil? selected-section)
+                                          (apply dom/div #js {:className "panel"}
+                                                 (om/build-all qs-editor
+                                                               (filter #(or (> (.indexOf (:name %1) search-pattern) -1) (= 0 (count search-pattern))) (:questions selected-section)))))])))))

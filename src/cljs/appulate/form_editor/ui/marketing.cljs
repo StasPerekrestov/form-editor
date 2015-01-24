@@ -5,12 +5,11 @@
    [appulate.form-editor.ui.markets :as markets]
    [appulate.form-editor.ui.qa :as qa]))
 
-(defn insured [insured owner]
+(defn insured [{:keys [name]} owner]
   (reify
     om/IRender
     (render [_]
-            (let [{:keys [name]} insured]
-              (dom/div nil name)))))
+            (dom/div nil name))))
 
 (defn section [data owner]
   (reify
