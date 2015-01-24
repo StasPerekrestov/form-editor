@@ -59,20 +59,16 @@
                  :search-pattern ""})
     om/IWillMount
     (will-mount [_]
-                (let [selection-ch (om/get-state owner :selection-ch)
-                      search-ch (om/get-state owner :search-ch)]
+                (let [{:keys [selection-ch search-ch]} (om/get-state owner)]
                   (go (loop [section-id (<! selection-ch)]
                         (om/update! application [:selected-section-id] section-id)
                         (recur (<! selection-ch))))
                   (go (loop [pattern (<! search-ch)]
                         (om/set-state! owner :search-pattern pattern)
                         (recur (<! search-ch))))))
-    om/IRender
-    (render [_]
+    om/IRenderState
+    (render-state [_ {:keys [selection-ch search-ch search-pattern]}]
             (apply dom/div nil (let [{:keys [sections selected-section-id]} application
-                                     selection-ch (om/get-state owner :selection-ch)
-                                     search-ch (om/get-state owner :search-ch)
-                                     pattern (om/get-state owner :search-pattern)
                                      selected-section (first (filter #(= (:id %1) selected-section-id) sections))
                                      ]
                                  [(dom/div #js {:className "row"}
@@ -85,8 +81,8 @@
                                                                 sections)))
 
                                            (dom/div #js {:className "small-3 large-3 columns"}
-                                                    (om/build question-search {:ch search-ch :pattern pattern})))
+                                                    (om/build question-search {:ch search-ch :pattern search-pattern})))
                                   (if-not (nil? selected-section)
                                     (apply dom/div #js {:className "panel"}
                                            (om/build-all qs-editor
-                                                         (filter #(or (> (.indexOf (:name %1) pattern) -1) (= 0 (count pattern))) (:questions selected-section)))))])))))
+                                                         (filter #(or (> (.indexOf (:name %1) search-pattern) -1) (= 0 (count search-pattern))) (:questions selected-section)))))])))))
