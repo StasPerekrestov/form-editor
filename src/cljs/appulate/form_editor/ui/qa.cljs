@@ -37,14 +37,21 @@
                               :onChange #(put! ch (->> %1 (.-target) (.-value)))})))))
 
 
-(defn qs-editor [{:keys [id name type]} owner]
+(defn qs-editor [question owner]
   "Renders questions an answers section"
   (reify
     om/IRender
     (render [_]
+        (let [{:keys [id name]} question]
             (dom/div nil
                      (dom/label nil name)
-                     (om/build editors/text-box "put text here")))))
+                     (om/build editors/ua-control question))))))
+
+(defn question-name-predicate
+  "Predi"
+  [pattern question]
+  (or (> (.indexOf (:name question) pattern) -1)
+      (= 0 (count pattern))))
 
 (defn qa-view [application owner]
   (reify
@@ -81,4 +88,5 @@
                                         (if-not (nil? selected-section)
                                           (apply dom/div #js {:className "panel"}
                                                  (om/build-all qs-editor
-                                                               (filter #(or (> (.indexOf (:name %1) search-pattern) -1) (= 0 (count search-pattern))) (:questions selected-section)))))])))))
+                                                               (filter  (partial question-name-predicate search-pattern)
+                                                                        (:questions selected-section)))))])))))
