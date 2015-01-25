@@ -31,5 +31,5 @@
                                       (dom/div #js {:className "small-2 large-2 columns"} "STATUS")
                                       (dom/div #js {:className "small-4 large-4 columns"} "ACTION")
                                       (dom/div #js {:className "small-2 large-2 columns"} "QUOTE"))
-
-                             (om/build-all market-view markets)])))))
+                            (apply dom/div #js {:className "scrollable"}
+                              (om/build-all market-view markets))])))))
