@@ -14,7 +14,8 @@
                      [(dom/div #js {:className "small-2 large-2 columns"}
                                (dom/input #js {:type "checkbox" :id chk-id}
                                           (dom/label #js {:htmlFor chk-id} name)))
-                      (dom/div #js {:className "small-2 large-2 columns"} (gstring/unescapeEntities "&nbsp;"))
+                      (dom/div #js {:className "small-2 large-2 columns"}
+                               (dom/span #js {:className "round label"} "$3800"))
                       (dom/div #js {:className "small-2 large-2 columns"}
                                (dom/span #js {:className "round success label"} "not submitted yet"))
                       (dom/div #js {:className "small-6 large-6 columns"} "")])))))
