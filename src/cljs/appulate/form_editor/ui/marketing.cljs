@@ -3,7 +3,8 @@
    [om.core :as om :include-macros true]
    [om.dom :as dom :include-macros true]
    [appulate.form-editor.ui.markets :as markets]
-   [appulate.form-editor.ui.qa :as qa]))
+   [appulate.form-editor.ui.qa :as qa]
+   [appulate.form-editor.ui.notes :as notes]))
 
 (defn insured [{:keys [name]} owner]
   (reify
@@ -40,4 +41,5 @@
                                                 (dom/div #js {:className "content" :id "forms-tab"})
                                                 (dom/div #js {:className "content" :id "lossRuns-tab"})
                                                 (dom/div #js {:className "content" :id "other-docs-tab"})
-                                                (dom/div #js {:className "content" :id "notes-tab"}))))))))
+                                                (dom/div #js {:className "content" :id "notes-tab"}
+                                                         (om/build notes/notepad nil)))))))))
