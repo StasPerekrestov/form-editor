@@ -24,7 +24,7 @@
 
                      (dom/div #js {:className "row"}
                               (dom/div #js {:className "small-12 large-12 columns" }
-                                       (dom/ul #js {:className "tabs" :data-tab nil}
+                                       (dom/ul #js {:className "tabs" :data-tab ""}
                                                (dom/li #js {:className "tab-title active"}
                                                        (dom/a #js {:href "#questionarie-tab"} "Questionarie"))
                                                (dom/li #js {:className "tab-title"}
