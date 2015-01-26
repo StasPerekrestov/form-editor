@@ -63,12 +63,12 @@
     om/IWillMount
     (will-mount [_]
                 (let [{:keys [selection-ch search-ch]} (om/get-state owner)]
-                  (go (loop [section-id (<! selection-ch)]
-                        (om/update! application [:selected-section-id] section-id)
-                        (recur (<! selection-ch))))
-                  (go (loop [pattern (<! search-ch)]
-                        (om/set-state! owner :search-pattern pattern)
-                        (recur (<! search-ch))))))
+                  (go (loop []
+                        (om/update! application [:selected-section-id] (<! selection-ch))
+                        (recur)))
+                  (go (loop [ ]
+                        (om/set-state! owner :search-pattern (<! search-ch))
+                        (recur)))))
     om/IRenderState
     (render-state [_ {:keys [selection-ch search-ch search-pattern]}]
                   (apply dom/div nil (let [{:keys [sections selected-section-id]} application

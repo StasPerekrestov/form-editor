@@ -1,15 +1,20 @@
 (ns appulate.form-editor.data)
 
+(defn fake-markets []
+  (map #(hash-map :id %1 :name (str "Market-" (+ 1000 %1)))
+       (range 1 100)))
+
 (defn init[]  {
                :notifications [{:message "Hello Info" :type :info}
                                {:message "Hello Warning" :type :warning}
                                {:message "Hello Alert" :type :alert}]
 
-               :markets [{:id 1 :name "Zuric"}
+               :markets (concat [{:id 1 :name "Zuric"}
                          {:id 2 :name "Atlas"}
                          {:id 3 :name "FirstComp"}
                          {:id 4 :name "Afbi"}
                          {:id 5 :name "Nif Group"}]
+                                (fake-markets))
                :application {
                              :selected-section-id 1234
                              :selectedForms []

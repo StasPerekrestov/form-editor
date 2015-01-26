@@ -18,7 +18,9 @@
                                (dom/span #js {:className "round label"} "$3800"))
                       (dom/div #js {:className "small-2 large-2 columns"}
                                (dom/span #js {:className "round success label"} "not submitted yet"))
-                      (dom/div #js {:className "small-6 large-6 columns"} "")])))))
+                      (dom/div #js {:className "small-2 large-2 columns"}
+                               (dom/a #js {:href "#" :style #js {:text-decoration "Underline"}} "Select"))
+                      (dom/div #js {:className "small-4 large-4 columns"} "")])))))
 
 (defn selected-view [markets owner]
   (reify
