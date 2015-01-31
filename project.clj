@@ -14,7 +14,7 @@
                  ;; CLJS
                  [org.clojure/clojurescript "0.0-2740"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
-                 [cljs-http "0.1.24"]
+                 [cljs-http "0.1.25"]
                  [secretary "1.2.1"]
                  [org.omcljs/om "0.8.7"]
                  [figwheel "0.2.2-SNAPSHOT"]
