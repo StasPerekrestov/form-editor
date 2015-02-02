@@ -30,8 +30,9 @@
                       (dom/div #js {:className "small-4 large-4 columns"} "")])))))
 
 (defn nil?? [x d]
-  "Returns a va"
+  "Returns a value if it's not null or a default value in the other case"
   (if (nil? x) d x))
+
 (defn selected-view [markets owner]
   (reify
     om/IRender
