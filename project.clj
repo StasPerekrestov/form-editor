@@ -12,7 +12,7 @@
                  [ring/ring-defaults "0.1.3"]
                  [javax.servlet/servlet-api "2.5"]
                  ;; CLJS
-                 [org.clojure/clojurescript "0.0-2755"]
+                 [org.clojure/clojurescript "0.0-2760"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [cljs-http "0.1.25"]
                  [secretary "1.2.1"]
@@ -64,7 +64,7 @@
   :figwheel {:http-server-root "public" ;; default and assumes "resources"
              :server-port 3449 ;; default
              :css-dirs ["resources/public/css"] ;; watch and update CSS
-             :repl false
+             :repl true
              :ring-handler appulate.form-editor.serve/dev-handler
              }
 
