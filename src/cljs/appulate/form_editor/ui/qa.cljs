@@ -7,7 +7,7 @@
    [appulate.form-editor.ui.editors :as editors]
    [clojure.string :as string]))
 
-(defn- section-selector [{:keys [ch selected section]} owner]
+(defn section-selector [{:keys [ch selected section]} owner]
   "Renders a view that allows to select a particular section"
   (reify
     om/IRender
@@ -24,7 +24,7 @@
                                                        (->>
                                                         e
                                                         (.preventDefault)))} label))))))
-(defn- question-search [{:keys [ch pattern]} owner]
+(defn question-search [{:keys [ch pattern]} owner]
   (reify
     om/IRender
     (render [_]

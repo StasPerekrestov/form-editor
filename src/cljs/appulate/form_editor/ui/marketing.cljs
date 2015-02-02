@@ -10,7 +10,7 @@
   (reify
     om/IRender
     (render [_]
-            (dom/div nil name))))
+            (dom/h3 nil name))))
 
 (defn section [data owner]
   (reify
@@ -20,7 +20,8 @@
                      (dom/div #js {:className "row"}
                               (dom/div #js {:className "small-12 large-12 columns"}
                                        (om/build insured (:insured data))))
-                     (dom/div #js {:className "row"} (om/build markets/selected-view (:markets data)))
+                     (dom/div #js {:className "row"}
+                              (om/build markets/selected-view (:markets data)))
 
                      (dom/div #js {:className "row"}
                               (dom/div #js {:className "small-12 large-12 columns" }

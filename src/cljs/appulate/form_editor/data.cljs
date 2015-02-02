@@ -9,12 +9,12 @@
                                {:message "Hello Warning" :type :warning}
                                {:message "Hello Alert" :type :alert}]
 
-               :markets (concat [{:id 1 :name "Zuric"}
+               :markets (vec (concat [{:id 1 :name "Zuric"}
                          {:id 2 :name "Atlas"}
                          {:id 3 :name "FirstComp"}
                          {:id 4 :name "Afbi"}
                          {:id 5 :name "Nif Group"}]
-                                (fake-markets))
+                                (fake-markets)))
                :application {
                              :selected-section-id 1234
                              :selectedForms []
