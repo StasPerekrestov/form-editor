@@ -36,16 +36,27 @@
   (reify
     om/IRender
     (render [_]
+        (let [ m-cnt (count markets)
+               m-cnt-selected (count (filter (fn [{selected :selected}]
+                                                (true? selected)) markets))]
             (apply dom/div nil
                    (flatten [(dom/div #js {:className "row"}
-                                      (dom/div #js {:className "small-2 large-2 columns"} "MARKETS")
-                                      (dom/div #js {:className "small-2 large-2 columns"} "EST. PREMIUM")
-                                      (dom/div #js {:className "small-2 large-2 columns"} "STATUS")
-                                      (dom/div #js {:className "small-4 large-4 columns"} "ACTION")
-                                      (dom/div #js {:className "small-2 large-2 columns"} "QUOTE"))
+                                      (dom/div #js {:className "small-2 large-2 columns market-headers"}
+                                               (dom/strong nil "MARKETS")
+                                                (dom/div #js {:className "badge"}
+                                                  (dom/span #js {:className "round secondary label"}
+                                                    (str m-cnt-selected "/" m-cnt))))
+                                      (dom/div #js {:className "small-2 large-2 columns"}
+                                               (dom/strong nil "EST. PREMIUM"))
+                                      (dom/div #js {:className "small-2 large-2 columns"}
+                                               (dom/strong nil "STATUS"))
+                                      (dom/div #js {:className "small-4 large-4 columns"}
+                                               (dom/strong nil "ACTION"))
+                                      (dom/div #js {:className "small-2 large-2 columns"}
+                                               (dom/strong nil "QUOTE")))
                             (apply dom/div #js {:className "scrollable"}
                                    (let [sortedMarkets (sort (fn [{selected1 :selected name1 :name}
                                                                   {selected2 :selected name2 :name}]
                                                                     (compare [(nil?? selected2 false) name1]
                                                                              [(nil?? selected1 false) name2])) markets)]
-                                      (om/build-all market-view sortedMarkets)))])))))
+                                      (om/build-all market-view sortedMarkets)))]))))))
