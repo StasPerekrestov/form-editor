@@ -12,11 +12,11 @@
                  [ring/ring-defaults "0.1.3"]
                  [javax.servlet/servlet-api "2.5"]
                  ;; CLJS
-                 [org.clojure/clojurescript "0.0-2740"]
+                 [org.clojure/clojurescript "0.0-2755"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [cljs-http "0.1.25"]
                  [secretary "1.2.1"]
-                 [org.omcljs/om "0.8.7"]
+                 [org.omcljs/om "0.8.8"]
                  [figwheel "0.2.2-SNAPSHOT"]
                  [http-kit "2.1.19"]
                  [com.taoensso/sente "1.3.0"]]
