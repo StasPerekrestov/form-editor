@@ -21,9 +21,10 @@
                              ;Maybe map :id question is more appropriate
                              :sections [{:id 1234
                                          :name "Common"
-                                         :questions [{:id 123 :name "Insured" :type :text :value "John Doe"}
+                                         :questions [{:id 123 :name "Insured" :type :text}
                                                      {:id 345 :name "FEIN" :type :text}
-                                                     {:id 342 :name "test" :type :text}]}
+                                                     {:id 342 :name "Additional FEIN?" :type :yesno}
+                                                     {:id 343 :name "Additional Legal Entities?" :type :yesno}]}
                                         {:id 1235
                                          :name "Rating"}
 
@@ -35,8 +36,14 @@
 
                                         {:id 123457
                                          :name "Coverage History"}
+
                                         {:id 123458
-                                         :name "Policy"}]
+                                         :name "Policy"
+                                         :questions [{:id 452 :name "Credit Bureau ID Number" :type :text}
+                                                     {:id 453 :name "NCCI ID Number" :type :text}
+                                                     {:id 454 :name "Special Endorsements?" :type :yesno}]
+                                         }
+                                        ]
                              }
                :policy {
                         :effective-date: "2014/12/23"
