@@ -25,7 +25,7 @@
                       (dom/div #js {:className "small-2 large-2 columns"}
                                (dom/span #js {:className "round success label"} "not submitted yet"))
                       (dom/div #js {:className "small-2 large-2 columns"}
-                               (dom/a #js {:href "#" :style #js {:text-decoration "Underline"}
+                               (dom/a #js {:href "#" :style #js {:textDecoration "Underline"}
                                            :onClick invert-selection} "Select"))
                       (dom/div #js {:className "small-4 large-4 columns"} "")])))))
 
