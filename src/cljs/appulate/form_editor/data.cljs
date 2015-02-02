@@ -21,7 +21,7 @@
                              ;Maybe map :id question is more appropriate
                              :sections [{:id 1234
                                          :name "Common"
-                                         :questions [{:id 123 :name "Insured" :type :text}
+                                         :questions [{:id 123 :name "Insured" :type :text :value "John Doe"}
                                                      {:id 345 :name "FEIN" :type :text}
                                                      {:id 342 :name "test" :type :text}]}
                                         {:id 1235

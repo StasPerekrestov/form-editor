@@ -6,20 +6,11 @@
    [appulate.form-editor.ui.qa :as qa]
    [appulate.form-editor.ui.notes :as notes]))
 
-(defn insured [{:keys [name]} owner]
-  (reify
-    om/IRender
-    (render [_]
-            (dom/h3 #js {:className "title"} name))))
-
 (defn section [data owner]
   (reify
     om/IRender
     (render [_]
             (dom/div nil
-                     (dom/div #js {:className "row"}
-                              (dom/div #js {:className "small-12 columns"}
-                                       (om/build insured (:insured data))))
                      (dom/div #js {:className "row"}
                               (om/build markets/selected-view (:markets data)))
 

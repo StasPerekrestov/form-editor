@@ -34,7 +34,8 @@
                                         :aria-expanded "false"}
                                    (dom/span nil)))
                (dom/section #js {:className "middle tab-bar-section"}
-                 (dom/h1 #js {:className "title"} "Marketing"))
+                 (dom/h1 #js {:className "title"}
+                         (get-in app [:application :sections 0 :questions 0 :value] "New Insured")))
                (dom/section #js {:className "right-small"}
                             (dom/a #js {:className "right-off-canvas-toggle menu-icon"
                                         :href "#"
