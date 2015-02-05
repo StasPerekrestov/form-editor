@@ -25,7 +25,7 @@
             [lein-ring "0.9.1"]
             [lein-pdo "0.1.1"]
             [lein-figwheel "0.2.2-SNAPSHOT"]
-            [lein-ancient "0.6.1"]
+            [lein-ancient "0.6.2"]
             [lein-bower "0.5.1"]]
 
   :aliases {"dev" ["pdo" "cljsbuild" "auto" "dev," "ring" "server-headless"]}
