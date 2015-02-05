@@ -35,7 +35,6 @@
   (reify
     om/IRender
     (render [_]
-      (println "Items type" (type items))
       (dom/aside #js {:className "left-off-canvas-menu"}
          (apply dom/ul #js {:className "off-canvas-list"} items)))))
 

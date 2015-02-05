@@ -4,17 +4,29 @@
   (map #(hash-map :id %1 :name (str "Market-" (+ 1000 %1)))
        (range 1 100)))
 
+(defn nil?? [x d]
+  "Returns a value if it's not null or a default value in the other case"
+  (if (nil? x) d x))
+
+(defn sort-markets [markets]
+    (->> markets
+         (sort (fn [{selected1 :selected name1 :name}
+                    {selected2 :selected name2 :name}]
+                 (compare [(nil?? selected2 false) name1]
+                          [(nil?? selected1 false) name2])))
+         (vec)))
+
 (defn init[]  {
                :notifications [{:message "Hello Info" :type :info}
                                {:message "Hello Warning" :type :warning}
                                {:message "Hello Alert" :type :alert}]
 
-               :markets (vec (concat [{:id 1 :name "Zuric"}
+               :markets (vec (sort-markets (concat [{:id 1 :name "Zuric"}
                          {:id 2 :name "Atlas"}
                          {:id 3 :name "FirstComp"}
                          {:id 4 :name "Afbi"}
                          {:id 5 :name "Nif Group"}]
-                                (fake-markets)))
+                                (fake-markets))))
                :application {
                              :selected-section-id 1234
                              :selectedForms []
