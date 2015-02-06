@@ -42,8 +42,9 @@
 
 (defonce initial-call-to-main (main))
 
-(fw/watch-and-reload
- :jsload-callback (fn []
-                    (main)
-                    ;; (stop-and-start-my app)
-                    ))
+(fw/start {
+           :load-warninged-code true
+           :on-jsload (fn []
+                        (main)
+                        ;; (stop-and-start-my app)
+                        )})
