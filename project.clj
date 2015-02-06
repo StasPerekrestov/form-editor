@@ -68,5 +68,5 @@
              :ring-handler appulate.form-editor.serve/dev-handler
              }
 
-  :bower-dependencies [[foundation "5.5.0"]]
+  :bower-dependencies [[foundation "5.5.1"]]
   :bower {:directory "resources/public/js/lib"})
