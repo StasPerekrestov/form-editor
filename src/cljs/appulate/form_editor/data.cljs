@@ -17,9 +17,7 @@
          (vec)))
 
 (defn init[]  {
-               :notifications [{:message "Hello Info" :type :info}
-                               {:message "Hello Warning" :type :warning}
-                               {:message "Hello Alert" :type :alert}]
+               :notifications []; {:message "Some text"}
 
                :markets (sort-markets
                           (concat [{:id 1 :name "Zuric"}

@@ -1,5 +1,6 @@
 (ns appulate.form-editor.ui.off-canvas
   (:require [goog.events :as events]
+            [cljs.core.async :refer [put!]]
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]))
 
@@ -53,11 +54,31 @@
       (dom/aside #js {:className "main-section"}
                  (dom/div nil
                           panel)))))
-(defn label [title]
+(defn label [title owner]
   (reify
     om/IRender
     (render [_]
       (dom/li nil (dom/label nil title)))))
+
+(defn msg-editor [{:keys [ch]} owner]
+  (reify
+    om/IInitState
+    (init-state [_]
+      {:message ""})
+    om/IRenderState
+    (render-state [_ {:keys [message]}]
+      (dom/li nil
+              (dom/textarea #js {:value message
+                                 :onChange #(om/set-state! owner :message (->> %1
+                                                                               (.-target)
+                                                                               (.-value)))})
+              (dom/input #js {:type "button"
+                              :className "tiny button"
+                              :value "Send"
+                              :onClick (fn [_]
+                                         (put! ch message)
+                                         (om/set-state! owner :message "")
+                                         )})))))
 
 (defn link-item [title]
   (reify

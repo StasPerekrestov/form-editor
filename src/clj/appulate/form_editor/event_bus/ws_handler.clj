@@ -21,23 +21,37 @@
   (def connected-uids                connected-uids) ; Watchable, read-only atom
   )
 
+(defmulti message-dispatcher (fn [msg] (:id msg)))
+(defmethod message-dispatcher :default [msg])
 
-(let [cr (chan)]
-;;TODO: add an atom that holds FE instances
-;;run go notification loop
-)
+(defmethod message-dispatcher :fe/broadcast [{:keys [id ?data connected-uids ring-req]}]
+  (let [
+        client-id (get-in ring-req [:params :client-id])
+        uids (filter #(not= client-id %1) (:any @connected-uids))
+        ]
+    (println "ClientId:" client-id)
+    (doseq [uid uids]
+      (println "Sending: " ?data "to" uid)
+      (chsk-send! uid [:fe/mesg ?data]))))
 
-(add-watch connected-uids :watcher
-  (fn [key atom old-state new-state]
-    (let [old-clients (:any old-state)
-          new-clients (:any new-state)
-          notif-clients (clojure.set/difference new-clients old-clients)
-          ;editors @atom
-          ]
-    ;Assign UIDs for clients and notify only newly joined clients
-      (doseq [uid notif-clients]
-       (println "new client notified with initial data:" uid)
-        (chsk-send! uid [:fe/ping "ping"])))))
+(go
+  (loop [msg (<! ch-chsk)]
+    (message-dispatcher msg)
+    (recur (<! ch-chsk))))
+
+
+
+;(add-watch connected-uids :watcher
+;  (fn [key atom old-state new-state]
+;    (let [old-clients (:any old-state)
+;          new-clients (:any new-state)
+;          notif-clients (clojure.set/difference new-clients old-clients)
+;          ;editors @atom
+;          ]
+;    ;Assign UIDs for clients and notify only newly joined clients
+;      (doseq [uid notif-clients]
+;       (println "new client notified with initial data:" uid)
+;        (chsk-send! uid [:fe/mesg "ping"])))))
 
 (comment
 

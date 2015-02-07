@@ -15,17 +15,30 @@
   (def chsk-state state)   ; Watchable, read-only atom
   )
 
-(defn map-function-on-map-vals [m f]
-        (apply merge
-               (map (fn [[k v]] {k (f v)})
-                    m)))
+(def publish-ch (chan))
 
-(defn rates []
-  (let [c (chan)]
-    (go
-     ;(loop [{res :?data} (<! ch-chsk)]
-     (loop [{res :?data [event-code _] :event} (<! ch-chsk)]
-       (if (= :chsk/recv event-code)
-         (let [[_ rate] res]
-           (>! c (map-function-on-map-vals rate js/parseFloat))))
-       (recur (<! ch-chsk)))) c))
+(def notif-ch (chan))
+
+
+(go
+  (loop [msg (<! publish-ch)]
+    (chsk-send! [:fe/broadcast msg])
+    (recur (<! publish-ch))))
+
+(defmulti message-dispatcher (fn [{:keys [event]}]
+                               (let [[code body] event]
+                                 (if (= :chsk/recv code)
+                                   (let [[cd _] body]
+                                     cd)
+                                   :ignore)
+                                 )))
+
+(defmethod message-dispatcher :default [msg])
+
+(defmethod message-dispatcher :fe/mesg [{[_ msg] :?data}]
+  (put! notif-ch msg))
+
+(go
+  (loop [msg (<! ch-chsk)]
+    (message-dispatcher msg)
+    (recur (<! ch-chsk))))
