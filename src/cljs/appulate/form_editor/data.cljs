@@ -1,9 +1,5 @@
 (ns appulate.form-editor.data)
 
-(defn fake-markets []
-  (map #(hash-map :id %1 :name (str "Market-" (+ 1000 %1)))
-       (range 1 100)))
-
 (defn nil?? [x d]
   "Returns a value if it's not null or a default value in the other case"
   (if (nil? x) d x))
@@ -20,12 +16,12 @@
                :notifications []; {:message "Some text"}
 
                :markets (sort-markets
-                          (concat [{:id 1 :name "Zuric"}
-                                   {:id 2 :name "Atlas"}
-                                   {:id 3 :name "FirstComp"}
-                                   {:id 4 :name "Afbi"}
-                                   {:id 5 :name "Nif Group"}]
-                                (fake-markets)))
+                          [{:id 1 :name "Zuric"}
+                           {:id 2 :name "Atlas"}
+                           {:id 3 :name "FirstComp"}
+                           {:id 4 :name "Afbi"}
+                           {:id 5 :name "Nif Group"}
+                           {:id 6 :name "Charity First"}])
                :application {
                              :selected-section-id 1234
                              :selectedForms []

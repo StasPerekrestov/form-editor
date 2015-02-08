@@ -14,7 +14,7 @@
                  ;; CLJS
                  [org.clojure/clojurescript "0.0-2760"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
-                 [cljs-http "0.1.25"]
+                 ;[cljs-http "0.1.25"]
                  [secretary "1.2.1"]
                  [org.omcljs/om "0.8.8"]
                  [figwheel "0.2.2-SNAPSHOT"]
@@ -52,6 +52,7 @@
                         :source-paths ["src/cljs"]
                         :compiler {
                                    :output-to "resources/public/js/fe.js"
+                                   :output-dir "resources/public/js/outprod"
                                    :source-map "resources/public/js/fe.js.map"
                                    :optimizations :advanced
                                    :pretty-print false

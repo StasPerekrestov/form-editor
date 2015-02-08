@@ -1,7 +1,6 @@
 (ns appulate.form-editor.event-bus.bus
     (:require-macros [cljs.core.async.macros :refer [go alt!]])
     (:require [cljs.core.async :refer [put! <! >! chan timeout]]
-              [cljs-http.client :as http]
               [taoensso.sente  :as sente :refer (cb-success?)]))
 
 
