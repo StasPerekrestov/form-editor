@@ -5,6 +5,8 @@ To run the application use
 ```
 #!shell
 
+
+lein bower install
 lein figwheel
 ```
 
