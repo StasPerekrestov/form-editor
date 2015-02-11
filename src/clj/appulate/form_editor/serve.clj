@@ -23,11 +23,22 @@
 (def dev-handler (reload/wrap-reload
                   (routes #'my-ring-handler)))
 
-(defn -main [& args] ;; entry point, lein run will pick up and start from here
+(defonce server (atom nil))
+
+(defn start [args]
   (let [handler (if (in-dev? args)
                   (reload/wrap-reload
-                     (routes #'my-ring-handler)) ;; only reload when dev
+                    (routes #'my-ring-handler)) ;; only reload when dev
                   (routes my-ring-handler))
         port 8080]
     (println (str "Starting server on port: " port "..."))
-    (run-server handler {:port port})))
+    (reset! server (run-server handler {:port port}))))
+
+(defn stop []
+  (let [srv @server]
+    (when-not (nil? srv)
+      (srv :timeout 100)
+      (reset! server nil))))
+
+(defn -main [& args] ;; entry point, lein run will pick up and start from here
+  (start args))
