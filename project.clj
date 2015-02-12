@@ -12,19 +12,19 @@
                  [ring/ring-defaults "0.1.4"]
                  [javax.servlet/servlet-api "2.5"]
                  ;; CLJS
-                 [org.clojure/clojurescript "0.0-2816"]
+                 [org.clojure/clojurescript "0.0-2843"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  ;[cljs-http "0.1.25"]
                  [secretary "1.2.1"]
                  [org.omcljs/om "0.8.8"]
-                 [figwheel "0.2.3-SNAPSHOT"]
+                 [figwheel "0.2.4-SNAPSHOT"]
                  [http-kit "2.1.19"]
                  [com.taoensso/sente "1.3.0"]]
 
   :plugins [[lein-cljsbuild "1.0.4"]
             [lein-ring "0.9.1"]
             [lein-pdo "0.1.1"]
-            [lein-figwheel "0.2.3-SNAPSHOT"]
+            [lein-figwheel "0.2.4-SNAPSHOT"]
             [lein-ancient "0.6.2"]
             [lein-bower "0.5.1"]]
 
