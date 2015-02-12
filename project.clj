@@ -9,7 +9,7 @@
                  [compojure "1.3.1"]
                  [cheshire "5.4.0"]
                  [ring/ring-devel "1.3.2"]
-                 [ring/ring-defaults "0.1.3"]
+                 [ring/ring-defaults "0.1.4"]
                  [javax.servlet/servlet-api "2.5"]
                  ;; CLJS
                  [org.clojure/clojurescript "0.0-2816"]
@@ -48,6 +48,17 @@
                                    :source-map-timestamp true
                                    :cache-analysis true
                                    :externs ["react/externs/react.js"]}}
+                       {:id "login"
+                        :source-paths ["src/cljs"]
+                        :compiler {
+                                   :output-to "resources/public/js/login.js"
+                                   :output-dir "resources/public/js/outlogin"
+                                   :optimizations :none
+                                   :source-map true
+                                   :source-map-timestamp true
+                                   :cache-analysis true
+                                   :externs ["react/externs/react.js"]
+                                   }}
                        {:id "release"
                         :source-paths ["src/cljs"]
                         :compiler {
