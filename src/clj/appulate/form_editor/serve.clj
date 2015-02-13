@@ -1,9 +1,11 @@
 (ns appulate.form-editor.serve
-    (:use [org.httpkit.server :only [run-server]])
-    (:require [appulate.form-editor.core :as core]
-              [compojure.core :refer [routes]]
-              [ring.middleware.reload :as reload]
-              [ring.middleware.defaults :refer [site-defaults wrap-defaults]]))
+  (:use [org.httpkit.server :only [run-server]])
+  (:require [appulate.form-editor.core :as core]
+            [compojure.core :refer [routes]]
+            [ring.middleware.reload :as reload]
+            [appulate.form-editor.auth :as auth]
+            [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
+            [ring.middleware.params :refer [wrap-params]]))
 
 (defn in-dev? [& _] true) ;; TODO read a config variable from command line, env, or file?
 
@@ -17,11 +19,15 @@
     ;; `ring.middleware.defaults/wrap-defaults` - but you'll need to ensure
     ;; that they're included yourself if you're not using `wrap-defaults`.
     ;;
-    (wrap-defaults core/all-routes ring-defaults-config)))
-
-;TODO: eliminte the following handler in the future
-(def dev-handler (reload/wrap-reload
-                  (routes #'my-ring-handler)))
+    ;(wrap-defaults
+    ;  (->> core/all-routes
+    ;      (auth/wrap-auth))
+    ;      ring-defaults-config)
+    ;instead of wrap-params use wrap default and add csrf-token
+    (->> core/all-routes
+         (wrap-params)
+         (auth/wrap-auth))
+    ))
 
 (defonce server (atom nil))
 

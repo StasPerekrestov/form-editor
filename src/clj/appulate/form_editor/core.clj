@@ -1,10 +1,9 @@
 (ns appulate.form-editor.core
-    (:require [compojure.handler :as handler]
+    (:require
               [compojure.route :as route]
               [compojure.core :refer [GET POST defroutes routes]]
-              [ring.util.response :as resp]
               [cheshire.core :as json]
-              [clojure.java.io :as io]
+              [appulate.form-editor.auth :as auth]
               [appulate.form-editor.event-bus.ws-handler :as ws]))
 
 (defn json-response [data & [status]]
@@ -13,7 +12,11 @@
    :body (json/generate-string data)})
 
 (defroutes all-routes
-  (GET "/" [] (resp/redirect "/index.html"))
+  (GET "/" [] auth/home)
+
+  (GET "/login" [req] (auth/login req))
+  (POST "/login" [] auth/login-authenticate)
+  (GET "/logout" [] auth/logout)
 
   (GET "/test" [] (json-response
                    {:message "You made it!"}))

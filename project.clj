@@ -11,6 +11,7 @@
                  [ring/ring-devel "1.3.2"]
                  [ring/ring-defaults "0.1.4"]
                  [javax.servlet/servlet-api "2.5"]
+                 [buddy/buddy-auth "0.3.0"]
                  ;; CLJS
                  [org.clojure/clojurescript "0.0-2843"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
