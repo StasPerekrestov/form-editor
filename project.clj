@@ -13,9 +13,9 @@
                  [javax.servlet/servlet-api "2.5"]
                  [buddy/buddy-auth "0.3.0"]
                  ;; CLJS
-                 [org.clojure/clojurescript "0.0-2843"]
+                 [org.clojure/clojurescript "0.0-2850"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
-                 ;[cljs-http "0.1.25"]
+                 [cljs-http "0.1.26"]
                  [secretary "1.2.1"]
                  [org.omcljs/om "0.8.8"]
                  [figwheel "0.2.4-SNAPSHOT"]
