@@ -14,7 +14,7 @@
 (defroutes all-routes
   (GET "/" [] auth/home)
 
-  (GET "/login" [req] (auth/login req))
+  (GET "/login"  [] auth/login)
   (POST "/login" [] auth/login-authenticate)
   (GET "/logout" [] auth/logout)
 

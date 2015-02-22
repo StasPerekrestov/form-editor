@@ -3,30 +3,30 @@
   :url "http://example.com/FIXME"
 
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/tools.reader "0.8.13"]
+                 [org.clojure/tools.reader "0.8.15"]
                  ;; CLJ
                  [ring/ring-core "1.3.2"]
-                 [compojure "1.3.1"]
+                 [compojure "1.3.2"]
                  [cheshire "5.4.0"]
                  [ring/ring-devel "1.3.2"]
                  [ring/ring-defaults "0.1.4"]
                  [javax.servlet/servlet-api "2.5"]
-                 [buddy/buddy-auth "0.3.0"]
+                 [buddy/buddy-auth "0.4.0"]
                  ;; CLJS
-                 [org.clojure/clojurescript "0.0-2850"]
+                 [org.clojure/clojurescript "0.0-2913"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [cljs-http "0.1.26"]
                  [secretary "1.2.1"]
                  [org.omcljs/om "0.8.8"]
-                 [figwheel "0.2.4-SNAPSHOT"]
+                 [figwheel "0.2.5-SNAPSHOT"]
                  [http-kit "2.1.19"]
                  [com.taoensso/sente "1.3.0"]]
 
-  :plugins [[lein-cljsbuild "1.0.4"]
+  :plugins [[lein-cljsbuild "1.0.5"]
             [lein-ring "0.9.1"]
             [lein-pdo "0.1.1"]
-            [lein-figwheel "0.2.4-SNAPSHOT"]
-            [lein-ancient "0.6.2"]
+            [lein-figwheel "0.2.5-SNAPSHOT"]
+            [lein-ancient "0.6.3"]
             [lein-bower "0.5.1"]]
 
   :aliases {"dev" ["pdo" "cljsbuild" "auto" "dev," "ring" "server-headless"]}
@@ -78,7 +78,7 @@
              :server-port 3449 ;; default
              :css-dirs ["resources/public/css"] ;; watch and update CSS
              :repl true
-             :ring-handler appulate.form-editor.serve/dev-handler
+             :ring-handler appulate.form-editor.serve/my-ring-handler
              }
 
   :bower-dependencies [[foundation "5.5.1"]]

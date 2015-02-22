@@ -3,7 +3,8 @@
     [buddy.auth.middleware :refer [wrap-authentication wrap-authorization]]
     [buddy.auth.backends.session :refer [session-backend]]
     [compojure.response :refer [render]]
-    [ring.util.response :refer [redirect]]
+    [ring.middleware.anti-forgery :refer [*anti-forgery-token*]]
+    [ring.util.response :refer [redirect header]]
     [buddy.auth :refer [authenticated? throw-unauthorized]]
     [clojure.java.io :as io]))
 
@@ -12,15 +13,17 @@
 (defn home
   [req]
   (if-not (authenticated? req)
-    (redirect "login.html")
-    (redirect "index.html")))
+    (->
+      (render (slurp (io/resource "public/login.html")) req)
+      ;(header "x-forgery-token" *anti-forgery-token*)
+      )
+    (render (slurp (io/resource "public/index.html")) req)))
 
 (defn login
   [request]
-  (redirect "login.html"))
-  ;(render
-  ;  (slurp
-  ;    (io/resource "login.html")) request))
+  (render
+    (slurp
+      (io/resource "public/login.html")) request))
 
 (defn login-authenticate
   "Authenticate Handler
@@ -37,8 +40,8 @@ user into session. `authdata` will be used as source of valid users."
               session (assoc session :identity (keyword username))]
           (-> (redirect nexturl)
               (assoc :session session)))
-        (render (slurp (io/resource "login.html")) request))
-      (render (slurp (io/resource "login.html")) request))))
+        (render (slurp (io/resource "public/index.html")) request))
+      (render (slurp (io/resource "public/login.html")) request))))
 
 
 (defn logout
@@ -74,5 +77,5 @@ This function is responsible of handling unauthorized requests.
 
 (defn wrap-auth [routes]
   (-> routes
-      (wrap-authentication auth-backend)
+      (wrap-authorization auth-backend)
       (wrap-authentication auth-backend)))

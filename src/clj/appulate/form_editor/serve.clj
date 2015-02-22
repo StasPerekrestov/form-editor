@@ -4,8 +4,10 @@
             [compojure.core :refer [routes]]
             [ring.middleware.reload :as reload]
             [appulate.form-editor.auth :as auth]
-            [ring.middleware.defaults :refer [site-defaults wrap-defaults]]
-            [ring.middleware.params :refer [wrap-params]]))
+            [ring.middleware.session :refer [wrap-session]]
+            [ring.middleware.keyword-params :refer [wrap-keyword-params]]
+            [ring.middleware.params :refer [wrap-params]]
+            [ring.middleware.defaults :refer [site-defaults wrap-defaults]]))
 
 (defn in-dev? [& _] true) ;; TODO read a config variable from command line, env, or file?
 
@@ -19,15 +21,15 @@
     ;; `ring.middleware.defaults/wrap-defaults` - but you'll need to ensure
     ;; that they're included yourself if you're not using `wrap-defaults`.
     ;;
-    ;(wrap-defaults
-    ;  (->> core/all-routes
-    ;      (auth/wrap-auth))
-    ;      ring-defaults-config)
-    ;instead of wrap-params use wrap default and add csrf-token
-    (->> core/all-routes
-         (wrap-params)
-         (auth/wrap-auth))
-    ))
+    ;;todo: add anti-forgery check
+    (-> core/all-routes
+        ;(wrap-anti-forgery)
+          (auth/wrap-auth)
+          (wrap-session)
+          (wrap-keyword-params )
+          (wrap-params)
+        ;(wrap-defaults ring-defaults-config)
+         )))
 
 (defonce server (atom nil))
 
