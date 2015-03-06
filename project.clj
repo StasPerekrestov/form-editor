@@ -13,9 +13,9 @@
                  [javax.servlet/servlet-api "2.5"]
                  [buddy/buddy-auth "0.4.0"]
                  ;; CLJS
-                 [org.clojure/clojurescript "0.0-2913"]
+                 [org.clojure/clojurescript "0.0-2985"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
-                 [cljs-http "0.1.26"]
+                 [cljs-http "0.1.27"]
                  [secretary "1.2.1"]
                  [org.omcljs/om "0.8.8"]
                  [figwheel "0.2.5-SNAPSHOT"]
@@ -23,10 +23,10 @@
                  [com.taoensso/sente "1.3.0"]]
 
   :plugins [[lein-cljsbuild "1.0.5"]
-            [lein-ring "0.9.1"]
+            [lein-ring "0.9.2"]
             [lein-pdo "0.1.1"]
             [lein-figwheel "0.2.5-SNAPSHOT"]
-            [lein-ancient "0.6.3"]
+            [lein-ancient "0.6.4"]
             [lein-bower "0.5.1"]]
 
   :aliases {"dev" ["pdo" "cljsbuild" "auto" "dev," "ring" "server-headless"]}
