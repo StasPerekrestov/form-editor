@@ -3,6 +3,11 @@
     [om.core :as om :include-macros true]
     [om.dom :as dom :include-macros true]))
 
+(defn- sing-in [data login password]
+  (let [{sign-in :onSignIn} data]
+    (when (fn? sign-in)
+      (sign-in {:login login :password password}))))
+
 (defn login-panel [data owner]
   (reify
     om/IInitState
@@ -27,14 +32,13 @@
                                                         :placeholder
                                                         "Password"
                                                         :value password
+                                                        :onKeyDown (fn [e]
+                                                                      (when (= 13 (.-keyCode e))
+                                                                        (sing-in data login password)))
                                                         :onChange #(om/set-state! owner :password (->> %1
                                                                                                       (.-target)
                                                                                                       (.-value)))}))
                              (dom/input #js {:type "button"
                                              :value "Sign in"
                                              :className "button tiny"
-                                             :onClick (fn [_]
-                                                          (let [{sign-in :onSignIn} data]
-                                                              (when (fn? sign-in)
-                                                                (sign-in {:login login :password password})
-                                                                )))}))))))
+                                             :onClick (fn [_] (sing-in data login password))}))))))

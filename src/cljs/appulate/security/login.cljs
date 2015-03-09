@@ -14,16 +14,23 @@
 (defonce app-state
          (atom nil))
 
+(defn navigate-to! [url]
+  (set! js/window.location.href url))
+
 (defn perform-auth [{:keys [login password]}]
   (go
     (let [{status :status} (<! (http/post "/login" {:form-params {:username login :password password}
                                                     :content-type :transit+json
                                                     :transit-opts {:handlers {}}}))]
       (when (= status 200)
-        (set! js/window.location.href "/"))
+        (navigate-to! "/")))))
 
-      )
-    ))
+(defn logout []
+  (go
+    (let [{status :status} (<! (http/post "/logout" {}))]
+      (when (or (= status 200) (= status 302))
+        (navigate-to! "/login")))))
+
 
 (defn login-section [data owner]
   (reify

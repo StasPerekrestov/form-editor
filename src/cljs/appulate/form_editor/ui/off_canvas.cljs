@@ -2,7 +2,8 @@
   (:require [goog.events :as events]
             [cljs.core.async :refer [put!]]
             [om.core :as om :include-macros true]
-            [om.dom :as dom :include-macros true]))
+            [om.dom :as dom :include-macros true]
+            [appulate.security.login :as auth]))
 
 
 (defn ^:private left-panel-top [data owner]
@@ -25,12 +26,20 @@
                                :aria-expanded "false"}
                           (dom/span nil))))))
 
+(defn- sing-out [_ owner]
+  (reify
+    om/IRender
+    (render [_]
+      (dom/div #js {:className "right"}
+               (dom/a #js {:href "#" :onClick (fn [_] (auth/logout))} "sign out")))))
+
 (defn ^:private middle-panel-top [title owner]
   (reify
     om/IRender
     (render [_]
       (dom/section #js {:className "middle tab-bar-section"}
-         (dom/h1 #js {:className "title"} title)))))
+                   (om/build sing-out {})
+                   (dom/h1 #js {:className "title"} title)))))
 
 (defn left-panel [items owner]
   (reify
