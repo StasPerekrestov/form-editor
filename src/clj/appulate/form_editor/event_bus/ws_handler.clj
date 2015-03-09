@@ -8,12 +8,9 @@
 (let [{:keys [ch-recv send-fn ajax-post-fn ajax-get-or-ws-handshake-fn
               connected-uids]}
       (sente/make-channel-socket! sente-adapters/http-kit-adapter {
-                                   ; we need this stuff to be able to distinguish
-                                   ; only newly joined clients
                                    :user-id-fn (fn [ring-request]
-                                                 (let [{:keys [params]} ring-request]
-                                                  ;fake :user-id = :client-id
-                                                   (:client-id params)))
+                                                 (let [{:keys [session]} ring-request]
+                                                  (:identity session)))
                                    })]
   (def ring-ajax-post                ajax-post-fn)
   (def ring-ajax-get-or-ws-handshake ajax-get-or-ws-handshake-fn)
@@ -27,10 +24,10 @@
 
 (defmethod message-dispatcher :fe/broadcast [{:keys [id ?data connected-uids ring-req]}]
   (let [
-        client-id (get-in ring-req [:params :client-id])
-        uids (filter #(not= client-id %1) (:any @connected-uids))
+        current-uid (:identity ring-req)
+        uids (filter #(not= current-uid %1) (:any @connected-uids))
         ]
-    (println "ClientId:" client-id)
+    (println "ClientId:" current-uid)
     (doseq [uid uids]
       (println "Sending: " ?data "to" uid)
       (chsk-send! uid [:fe/mesg ?data]))))
