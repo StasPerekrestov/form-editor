@@ -3,7 +3,7 @@
   :url "http://example.com/FIXME"
 
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/tools.reader "0.8.15"]
+                 [org.clojure/tools.reader "0.8.16"]
                  ;; CLJ
                  [ring/ring-core "1.3.2"]
                  [compojure "1.3.2"]
@@ -13,7 +13,7 @@
                  [javax.servlet/servlet-api "2.5"]
                  [buddy/buddy-auth "0.4.0"]
                  ;; CLJS
-                 [org.clojure/clojurescript "0.0-2985"]
+                 [org.clojure/clojurescript "0.0-3053"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [cljs-http "0.1.27"]
                  [secretary "1.2.1"]

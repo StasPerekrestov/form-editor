@@ -16,10 +16,14 @@
 
 (defn perform-auth [{:keys [login password]}]
   (go
-    (let [resp (<! (http/post "/login" {:form-params {:username login :password password}}))])
+    (let [{status :status} (<! (http/post "/login" {:form-params {:username login :password password}
+                                                    :content-type :transit+json
+                                                    :transit-opts {:handlers {}}}))]
+      (when (= status 200)
+        (set! js/window.location.href "/"))
 
-    )
-  )
+      )
+    ))
 
 (defn login-section [data owner]
   (reify

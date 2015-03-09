@@ -6,18 +6,39 @@
     [ring.middleware.anti-forgery :refer [*anti-forgery-token*]]
     [ring.util.response :refer [redirect header]]
     [buddy.auth :refer [authenticated? throw-unauthorized]]
+    [buddy.auth.accessrules :refer [success error wrap-access-rules]]
     [clojure.java.io :as io]))
 
 (def authdata {:admin "123123"
                :foo "dragon"})
+
+(defn on-error
+  [request value]
+  {:status 403
+   :headers {}
+   :body "Not authorized"})
+
+(defn any-access
+  [request]
+  true)
+
+(defn authenticated-access
+  [request]
+  (if (authenticated? request)
+    true
+    (error "Only authenticated users allowed")))
+
+(def rules [{:pattern #"^/login$"
+             :handler any-access}
+            {:urls ["/js" "/css"]
+             :handler any-access}
+            {:pattern #"^/.*"
+             :handler authenticated-access}])
 (defn home
   [req]
-  (if-not (authenticated? req)
-    (->
-      (render (slurp (io/resource "public/login.html")) req)
-      ;(header "x-forgery-token" *anti-forgery-token*)
-      )
-    (render (slurp (io/resource "public/index.html")) req)))
+  (when-not (authenticated? req)
+    (throw-unauthorized {:message "Not authorized"}))
+  (render (slurp (io/resource "public/index.html")) req))
 
 (defn login
   [request]
@@ -25,7 +46,7 @@
     (slurp
       (io/resource "public/login.html")) request))
 
-(defn login-authenticate
+(defn login-authenticate-ajax
   "Authenticate Handler
 Respons to post requests in same url as login and is responsible to
 identify the incoming credentials and set the appropiate authenticated
@@ -38,10 +59,9 @@ user into session. `authdata` will be used as source of valid users."
       (if (= found-password password)
         (let [nexturl (get-in request [:query-params :next] "/")
               session (assoc session :identity (keyword username))]
-          (-> (redirect nexturl)
-              (assoc :session session)))
-        (render (slurp (io/resource "public/index.html")) request))
-      (render (slurp (io/resource "public/login.html")) request))))
+          (-> (hash-map :status 200)
+              (assoc :session session))))
+      (render (on-error request nil) request))))
 
 
 (defn logout
@@ -78,4 +98,5 @@ This function is responsible of handling unauthorized requests.
 (defn wrap-auth [routes]
   (-> routes
       (wrap-authorization auth-backend)
-      (wrap-authentication auth-backend)))
+      (wrap-authentication auth-backend)
+      (wrap-access-rules {:rules rules :on-error on-error})))

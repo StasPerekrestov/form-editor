@@ -23,12 +23,10 @@
     ;;
     ;;todo: add anti-forgery check
     (-> core/all-routes
-        ;(wrap-anti-forgery)
           (auth/wrap-auth)
           (wrap-session)
-          (wrap-keyword-params )
+          (wrap-keyword-params)
           (wrap-params)
-        ;(wrap-defaults ring-defaults-config)
          )))
 
 (defonce server (atom nil))
