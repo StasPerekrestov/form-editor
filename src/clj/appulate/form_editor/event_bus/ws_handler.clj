@@ -2,11 +2,12 @@
   (:require
     [clojure.core.async :refer [put! <! >! chan timeout go close!]]
     [taoensso.sente :as sente]
+    [taoensso.sente.server-adapters.http-kit :as sente-adapters]
     [cheshire.core :refer [parse-string]]))
 
 (let [{:keys [ch-recv send-fn ajax-post-fn ajax-get-or-ws-handshake-fn
               connected-uids]}
-      (sente/make-channel-socket! {
+      (sente/make-channel-socket! sente-adapters/http-kit-adapter {
                                    ; we need this stuff to be able to distinguish
                                    ; only newly joined clients
                                    :user-id-fn (fn [ring-request]
@@ -38,21 +39,3 @@
   (loop [msg (<! ch-chsk)]
     (message-dispatcher msg)
     (recur (<! ch-chsk))))
-
-
-
-;(add-watch connected-uids :watcher
-;  (fn [key atom old-state new-state]
-;    (let [old-clients (:any old-state)
-;          new-clients (:any new-state)
-;          notif-clients (clojure.set/difference new-clients old-clients)
-;          ;editors @atom
-;          ]
-;    ;Assign UIDs for clients and notify only newly joined clients
-;      (doseq [uid notif-clients]
-;       (println "new client notified with initial data:" uid)
-;        (chsk-send! uid [:fe/mesg "ping"])))))
-
-(comment
-
-  )

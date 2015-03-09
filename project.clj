@@ -20,7 +20,7 @@
                  [org.omcljs/om "0.8.8"]
                  [figwheel "0.2.5-SNAPSHOT"]
                  [http-kit "2.1.19"]
-                 [com.taoensso/sente "1.3.0"]]
+                 [com.taoensso/sente "1.4.0"]]
 
   :plugins [[lein-cljsbuild "1.0.5"]
             [lein-ring "0.9.2"]
