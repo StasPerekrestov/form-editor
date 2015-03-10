@@ -11,7 +11,6 @@
           (include-css "js/lib/foundation/css/normalize.css")
           (include-css "js/lib/foundation/css/foundation.css")
           (include-js "http://fb.me/react-0.12.2.js")
-          (include-js "js/script.js")
 
           [:body
            [:div {:class "container"} content]
