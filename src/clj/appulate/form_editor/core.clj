@@ -4,7 +4,9 @@
               [compojure.core :refer [GET POST defroutes routes]]
               [cheshire.core :as json]
               [appulate.form-editor.auth :as auth]
-              [appulate.form-editor.event-bus.ws-handler :as ws]))
+              [appulate.form-editor.event-bus.ws-handler :as ws]
+              [appulate.form-editor.views.layout :as layout]
+              [appulate.form-editor.Views.marketing :as marketing]))
 
 (defn json-response [data & [status]]
   {:status (or status 200)
@@ -22,7 +24,7 @@
 
 
 (defroutes other-routes
-  (GET "/" [] auth/home)
+  (GET "/" [] (layout/application "Marketing" (marketing/app)))
   (GET "/test" [] (json-response
                    {:message "You made it!"}))
   (POST "/test" req (json-response

@@ -7,13 +7,14 @@
                  ;; CLJ
                  [ring/ring-core "1.3.2"]
                  [compojure "1.3.2"]
+                 [hiccup "1.0.5"]
                  [cheshire "5.4.0"]
                  [ring/ring-devel "1.3.2"]
                  [ring/ring-defaults "0.1.4"]
                  [javax.servlet/servlet-api "2.5"]
                  [buddy/buddy-auth "0.4.0"]
                  ;; CLJS
-                 [org.clojure/clojurescript "0.0-3053"]
+                 [org.clojure/clojurescript "0.0-3058"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [cljs-http "0.1.27"]
                  [secretary "1.2.1"]
@@ -26,7 +27,7 @@
             [lein-ring "0.9.2"]
             [lein-pdo "0.1.1"]
             [lein-figwheel "0.2.5-SNAPSHOT"]
-            [lein-ancient "0.6.4"]
+            [lein-ancient "0.6.5"]
             [lein-bower "0.5.1"]]
 
   :aliases {"dev" ["pdo" "cljsbuild" "auto" "dev," "ring" "server-headless"]}
