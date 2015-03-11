@@ -30,7 +30,7 @@
     (println "ClientId:" current-uid)
     (doseq [uid uids]
       (println "Sending: " ?data "to" uid)
-      (chsk-send! uid [:fe/mesg ?data]))))
+      (chsk-send! uid [:fe/mesg {:message ?data :from current-uid}]))))
 
 (go
   (loop [msg (<! ch-chsk)]

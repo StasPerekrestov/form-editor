@@ -44,7 +44,8 @@
                  (om/build fe-stub app)
                  (conj (om/build-all ofc/link-item (->>
                                                      (:notifications app)
-                                                     (map #(:message %1))))
+                                                     (map (fn [{{:keys [message from]} :message}] 
+                                                            (str (name from) ": " message)))))
                        (om/build ofc/msg-editor {:ch ebus/publish-ch})
                        (om/build ofc/label "Messages")
                        )]))))
