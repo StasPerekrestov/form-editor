@@ -4,7 +4,7 @@
     [buddy.auth.backends.session :refer [session-backend]]
     [compojure.response :refer [render]]
     [ring.middleware.anti-forgery :refer [*anti-forgery-token*]]
-    [ring.util.response :refer [redirect header]]
+    [ring.util.response :refer [redirect header response]]
     [buddy.auth :refer [authenticated? throw-unauthorized]]
     [buddy.auth.accessrules :refer [success error wrap-access-rules]]
     [clojure.java.io :as io]))
@@ -14,31 +14,38 @@
 
 (defn on-error
   [request value]
-  {:status 403
-   :headers {}
-   :body "Not authorized"})
+    {:status 403
+     :headers {}
+     :body (str "Not authorized. " value)})
+
+(defn root [request]
+  (if (authenticated? request)
+    (redirect "/marketing")
+    (redirect "/login")))
 
 (defn any-access
   [request]
-  true)
+  (success))
 
 (defn authenticated-access
   [request]
   (if (authenticated? request)
-    true
+    (success)
     (error "Only authenticated users allowed")))
+
 
 (def rules [{:pattern #"^/login$"
              :handler any-access}
-            {:urls ["/js" "/css"]
-             :handler any-access}
+
+            {:pattern #"^/marketing$"
+             :handler authenticated-access
+             :redirect "/login"}
+
+            {:urls ["/js" "/css" "/"]
+            :handler any-access}
+
             {:pattern #"^/.*"
              :handler authenticated-access}])
-(defn home
-  [req]
-  (when-not (authenticated? req)
-    (throw-unauthorized {:message "Not authorized"}))
-  (render (slurp (io/resource "public/index.html")) req))
 
 (defn login
   [request]
@@ -61,6 +68,7 @@ user into session. `authdata` will be used as source of valid users."
               session (assoc session :identity (keyword username))]
           (-> (hash-map :status 200)
               (assoc :session session))))
+      ;(response {:status 403 :body "Not auth"})
       (render (on-error request nil) request))))
 
 
@@ -97,6 +105,6 @@ This function is responsible of handling unauthorized requests.
 
 (defn wrap-auth [routes]
   (-> routes
+      (wrap-access-rules {:rules rules :on-error on-error})
       (wrap-authorization auth-backend)
-      (wrap-authentication auth-backend)
-      (wrap-access-rules {:rules rules :on-error on-error})))
+      (wrap-authentication auth-backend)))

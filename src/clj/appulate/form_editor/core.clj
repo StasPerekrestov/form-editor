@@ -24,7 +24,8 @@
 
 
 (defroutes other-routes
-  (GET "/" [] (layout/application "Marketing" (marketing/app)))
+  (GET "/marketing" [] (layout/application "Marketing" (marketing/app)))
+  (GET "/" [] auth/root)
   (GET "/test" [] (json-response
                    {:message "You made it!"}))
   (POST "/test" req (json-response
