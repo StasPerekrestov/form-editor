@@ -79,7 +79,7 @@
              :server-port 3449 ;; default
              :css-dirs ["resources/public/css"] ;; watch and update CSS
              :repl true
-             :ring-handler appulate.form-editor.serve/my-ring-handler
+             :ring-handler appulate.form-editor.serve/all-routes
              }
 
   :bower-dependencies [[foundation "5.5.1"]]

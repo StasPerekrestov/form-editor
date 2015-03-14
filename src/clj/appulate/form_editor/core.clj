@@ -22,9 +22,10 @@
            (GET  "/ws" req (ws/ring-ajax-get-or-ws-handshake req))
            (POST "/ws" req (ws/ring-ajax-post              req)))
 
+(defroutes marketing-routes
+           (GET "/marketing" [] (layout/application "Marketing" (marketing/app))))
 
 (defroutes other-routes
-  (GET "/marketing" [] (layout/application "Marketing" (marketing/app)))
   (GET "/" [] auth/root)
   (GET "/test" [] (json-response
                    {:message "You made it!"}))
@@ -33,5 +34,5 @@
   (route/resources "/")
   (route/not-found "404 - Page not found."))
 
-(def all-routes
-  (routes auth-routes chat-routes other-routes))
+(def main-routes
+  (routes auth-routes chat-routes marketing-routes))

@@ -11,7 +11,7 @@
 
 (defn in-dev? [& _] true) ;; TODO read a config variable from command line, env, or file?
 
-(def my-ring-handler
+(def app-routes
   (let [ring-defaults-config
         (assoc-in site-defaults [:security :anti-forgery]
           {:read-token (fn [req] (-> req :params :csrf-token))})]
@@ -22,20 +22,23 @@
     ;; that they're included yourself if you're not using `wrap-defaults`.
     ;;
     ;;todo: add anti-forgery check
-    (-> core/all-routes
+    (-> core/main-routes
           (auth/wrap-auth)
           (wrap-keyword-params)
           (wrap-params ring-defaults-config)
           (wrap-session)
          )))
 
+(def all-routes
+  (routes app-routes core/other-routes))
+
 (defonce server (atom nil))
 
 (defn start [args]
   (let [handler (if (in-dev? args)
                   (reload/wrap-reload
-                    (routes #'my-ring-handler)) ;; only reload when dev
-                  (routes my-ring-handler))
+                    (routes #'all-routes)) ;; only reload when dev
+                  (routes all-routes))
         port 8080]
     (println (str "Starting server on port: " port "..."))
     (reset! server (run-server handler {:port port}))))

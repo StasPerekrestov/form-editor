@@ -23,7 +23,7 @@
                                                     :content-type :transit+json
                                                     :transit-opts {:handlers {}}}))]
       (when (= status 200)
-        (navigate-to! "/")))))
+        (navigate-to! "/marketing")))))
 
 (defn logout []
   (go
