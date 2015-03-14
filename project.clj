@@ -19,14 +19,14 @@
                  [cljs-http "0.1.27"]
                  [secretary "1.2.1"]
                  [org.omcljs/om "0.8.8"]
-                 [figwheel "0.2.5-SNAPSHOT"]
+                 [figwheel "0.2.5"]
                  [http-kit "2.1.19"]
                  [com.taoensso/sente "1.4.1"]]
 
   :plugins [[lein-cljsbuild "1.0.5"]
-            [lein-ring "0.9.2"]
+            [lein-ring "0.9.3"]
             [lein-pdo "0.1.1"]
-            [lein-figwheel "0.2.5-SNAPSHOT"]
+            [lein-figwheel "0.2.5"]
             [lein-ancient "0.6.5"]
             [lein-bower "0.5.1"]]
 
