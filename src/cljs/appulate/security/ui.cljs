@@ -1,4 +1,4 @@
-(ns appulate.security.auth
+(ns appulate.security.ui
   (:require
     [om.core :as om :include-macros true]
     [om.dom :as dom :include-macros true]))

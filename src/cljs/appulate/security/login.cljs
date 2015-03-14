@@ -3,9 +3,8 @@
   (:require
     [cljs.core.async :refer [<!]]
     [om.core :as om :include-macros true]
-    [om.dom :as dom :include-macros true]
-    [appulate.security.auth :refer [login-panel]]
-    [cljs-http.client :as http]
+    [appulate.security.ui :refer [login-panel]]
+    [appulate.security.api :as api]
     [figwheel.client :as fw]))
 
 ;; Lets you do (prn "stuff") to the console
@@ -17,19 +16,10 @@
 (defn navigate-to! [url]
   (set! js/window.location.href url))
 
-(defn perform-auth [{:keys [login password]}]
+(defn authenticate [credentials]
   (go
-    (let [{status :status} (<! (http/post "/login" {:form-params {:username login :password password}
-                                                    :content-type :transit+json
-                                                    :transit-opts {:handlers {}}}))]
-      (when (= status 200)
-        (navigate-to! "/marketing")))))
-
-(defn logout []
-  (go
-    (let [{status :status} (<! (http/post "/logout" {}))]
-      (when (or (= status 200) (= status 302))
-        (navigate-to! "/login")))))
+    (<! (api/login credentials)))
+    (navigate-to! "/marketing"))
 
 
 (defn login-section [data owner]
@@ -38,7 +28,7 @@
     (render [_]
       (om/build login-panel {:onSignIn
                              (fn [credentials]
-                               (perform-auth credentials))}))))
+                               (authenticate credentials))}))))
 
 (defn main []
   (om/root login-section
@@ -47,7 +37,7 @@
 
 (defonce initial-call-to-main (main))
 
-(fw/start {
+(comment fw/start {
            :load-warninged-code true
            :on-jsload (fn []
                         (main)

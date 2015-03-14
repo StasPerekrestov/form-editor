@@ -40,12 +40,7 @@
             {:pattern #"^/marketing$"
              :handler authenticated-access
              :redirect "/login"}
-
-            {:urls ["/js" "/css" "/"]
-            :handler any-access}
-
-            {:pattern #"^/.*"
-             :handler authenticated-access}])
+            ])
 
 (defn login
   [request]

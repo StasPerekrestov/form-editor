@@ -3,7 +3,7 @@
             [cljs.core.async :refer [put!]]
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [appulate.security.login :as auth]))
+            [appulate.security.api :as auth]))
 
 
 (defn ^:private left-panel-top [data owner]
