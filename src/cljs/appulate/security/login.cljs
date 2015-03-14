@@ -5,16 +5,14 @@
     [om.core :as om :include-macros true]
     [appulate.security.ui :refer [login-panel]]
     [appulate.security.api :as api]
-    [figwheel.client :as fw]))
+    [figwheel.client :as fw]
+    [appulate.form-editor.utils :refer [navigate-to!]]))
 
 ;; Lets you do (prn "stuff") to the console
 (enable-console-print!)
 
 (defonce app-state
          (atom nil))
-
-(defn navigate-to! [url]
-  (set! js/window.location.href url))
 
 (defn authenticate [credentials]
   (go

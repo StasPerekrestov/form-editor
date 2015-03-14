@@ -1,9 +1,10 @@
 (ns appulate.form-editor.ui.off-canvas
-  (:require [goog.events :as events]
-            [cljs.core.async :refer [put!]]
+  (:require-macros [cljs.core.async.macros :refer [go]])
+  (:require [cljs.core.async :refer [put! <!]]
             [om.core :as om :include-macros true]
             [om.dom :as dom :include-macros true]
-            [appulate.security.api :as auth]))
+            [appulate.security.api :as auth]
+            [appulate.form-editor.utils :refer [navigate-to!]]))
 
 
 (defn ^:private left-panel-top [data owner]
@@ -31,7 +32,10 @@
     om/IRender
     (render [_]
       (dom/div #js {:className "right"}
-               (dom/a #js {:href "#" :onClick (fn [_] (auth/logout))} "sign out")))))
+               (dom/a #js {:href "#" :onClick (fn [_]
+                                                (go
+                                                  (<! (auth/logout))
+                                                  (navigate-to! "/")))} "sign out")))))
 
 (defn ^:private middle-panel-top [title owner]
   (reify

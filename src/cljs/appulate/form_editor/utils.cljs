@@ -1,5 +1,4 @@
 (ns appulate.form-editor.utils
-  (:require [cljs.reader :as reader])
   (:import [goog.ui IdGenerator]))
 
 (defn guid []
@@ -12,3 +11,6 @@
     {:hours (.getHours d)
      :minutes (.getMinutes d)
      :seconds (.getSeconds d)}))
+
+(defn navigate-to! [url]
+  (set! js/window.location.href url))
