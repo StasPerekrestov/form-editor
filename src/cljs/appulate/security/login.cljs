@@ -16,8 +16,8 @@
 
 (defn authenticate [credentials]
   (go
-    (<! (api/login credentials)))
-    (navigate-to! "/marketing"))
+    (<! (api/login credentials))
+    (navigate-to! "/marketing")))
 
 
 (defn login-section [data owner]
@@ -35,7 +35,7 @@
 
 (defonce initial-call-to-main (main))
 
-(comment fw/start {
+(fw/start {
            :load-warninged-code true
            :on-jsload (fn []
                         (main)
