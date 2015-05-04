@@ -8,8 +8,7 @@
               [appulate.form-editor.event-bus.bus :as ebus]
               [appulate.form-editor.data :as data]
               [appulate.form-editor.ui.marketing :as marketing]
-              [appulate.form-editor.ui.off-canvas :as ofc]
-              [figwheel.client :as fw]))
+              [appulate.form-editor.ui.off-canvas :as ofc]))
 
 ;; Lets you do (prn "stuff") to the console
 (enable-console-print!)
@@ -55,10 +54,3 @@
    (om/root fe-app app-state {:target (.getElementById js/document "app")}))
 
 (defonce initial-call-to-main (main))
-
-(fw/start {
-           :load-warninged-code true
-           :on-jsload (fn []
-                        (main)
-                        ;; (stop-and-start-my app)
-                        )})

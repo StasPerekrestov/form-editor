@@ -4,8 +4,7 @@
    [cljs.core.async :refer [put! chan <!]]
    [om.core :as om :include-macros true]
    [om.dom :as dom :include-macros true]
-   [appulate.form-editor.data :refer [sort-markets]]
-   [goog.string :as gstring]))
+   [appulate.form-editor.data :refer [sort-markets]]))
 
 (defn market-view [market owner {:keys [selection-ch]}]
   (reify

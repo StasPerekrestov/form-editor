@@ -5,7 +5,6 @@
     [om.core :as om :include-macros true]
     [appulate.security.ui :refer [login-panel]]
     [appulate.security.api :as api]
-    [figwheel.client :as fw]
     [appulate.form-editor.utils :refer [navigate-to!]]))
 
 ;; Lets you do (prn "stuff") to the console
@@ -34,10 +33,3 @@
            {:target (.getElementById js/document "app")}))
 
 (defonce initial-call-to-main (main))
-
-(fw/start {
-           :load-warninged-code true
-           :on-jsload (fn []
-                        (main)
-                        ;; (stop-and-start-my app)
-                        )})

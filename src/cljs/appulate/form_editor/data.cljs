@@ -53,7 +53,7 @@
                                         ]
                              }
                :policy {
-                        :effective-date: "2014/12/23"
+                        :effective-date "2014/12/23"
                         :policyType :WC
                         }
                :insured {:name "John Doe"}})
