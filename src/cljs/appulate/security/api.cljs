@@ -8,8 +8,8 @@
   (let [c (chan)]
     (go
       (let [{status :status} (<! (http/post "/login" {:form-params {:username login :password password}
-                                                      :content-type :transit+json
-                                                      :transit-opts {:handlers {}}}))]
+
+                                                      }))]
         (when (= status 200)
           (put! c 1))))
     c))

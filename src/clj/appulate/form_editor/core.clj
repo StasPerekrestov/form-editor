@@ -35,4 +35,6 @@
   (route/not-found "404 - Page not found."))
 
 (def main-routes
-  (routes auth-routes chat-routes marketing-routes))
+  (routes auth-routes
+          chat-routes
+          marketing-routes))

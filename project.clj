@@ -2,26 +2,26 @@
   :description "FIXME: write this!"
   :url "http://example.com/FIXME"
 
-  :dependencies [[org.clojure/clojure "1.7.0-beta3"]
+  :dependencies [[org.clojure/clojure "1.7.0"]
                  [org.clojure/tools.reader "0.9.2"]
                  ;; CLJ
-                 [ring/ring-core "1.3.2"]
-                 [compojure "1.3.4"]
+                 [ring/ring-core "1.4.0"]
+                 [compojure "1.4.0"]
                  [hiccup "1.0.5"]
                  [cheshire "5.5.0"]
-                 [ring/ring-devel "1.3.2"]
+                 [ring/ring-devel "1.4.0"]
                  [ring/ring-defaults "0.1.5"]
                  [javax.servlet/servlet-api "2.5"]
-                 [buddy/buddy-auth "0.6.0"]
+                 [buddy/buddy-auth "0.6.1"]
                  ;; CLJS
-                 [org.clojure/clojurescript "0.0-3308"]
+                 [org.clojure/clojurescript "1.7.107"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
-                 [cljs-http "0.1.35"]
+                 [cljs-http "0.1.37"]
                  [secretary "1.2.3"]
                  [org.omcljs/om "0.9.0"]
                  [figwheel "0.3.7"]
                  [http-kit "2.1.19"]
-                 [com.taoensso/sente "1.5.0"]]
+                 [com.taoensso/sente "1.6.0"]]
 
   :plugins [[lein-cljsbuild "1.0.6"]
             [lein-ring "0.9.6"]
